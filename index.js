@@ -52,7 +52,8 @@ const typeDefs = gql`
     getUserData: User
     getProduct: Product
     users: [User]
-    ofAgeUsers(age: Int): [User]
+    ofAgeUsers: [User]
+    getUserById(id: ID): User
   }
 `;
 
@@ -81,8 +82,11 @@ const resolvers = {
     users() {
       return usersMock
     },
-    ofAgeUsers(_, args) {
+    ofAgeUsers() {
       return usersMock.filter(user => user.age >= 18)
+    },
+    getUserById(_, args) {
+      return usersMock.filter(user => user.id === Number(args.id))[0]
     }
   },
   User: {
