@@ -26,7 +26,7 @@ const resolvers = {
     },
     getUserData() {
       return {
-        id: 14124,
+        user_id: 14124,
         name: "Felipe",
         email: "felipe.rocha@email.com",
         age: 26,
@@ -38,6 +38,9 @@ const resolvers = {
   Usuario: {
     salary(user) {
       return user.USD_salary
+    },
+    id(user) {
+      return user.user_id
     }
   }
 };
