@@ -1,5 +1,23 @@
 const { ApolloServer, gql } = require('apollo-server');
 
+const usersMock = [
+  {
+    id: 5471,
+    name: "Felipe Rocha",
+    email: "frocha@mail.com"
+  },
+  {
+    id: 2910,
+    name: "Julia Prado",
+    email: "jprado@mail.com"
+  },
+  {
+    id: 3145,
+    name: "Eduardo Prado",
+    email: "eprado@mail.com"
+  }
+];
+
 const typeDefs = gql`
   scalar Date
 
@@ -24,6 +42,7 @@ const typeDefs = gql`
     currentHour: Date!
     getUserData: User
     getProduct: Product
+    users: [User]
   }
 `;
 
@@ -48,6 +67,9 @@ const resolvers = {
         price: 1099.99,
         discount: 0.10
       }
+    },
+    users() {
+      return usersMock
     }
   },
   User: {
@@ -55,7 +77,7 @@ const resolvers = {
       return user.USD_salary
     },
     id(user) {
-      return user.user_id
+      return user.user_id || user.id
     }
   },
   Product: {
