@@ -4,17 +4,26 @@ const usersMock = [
   {
     id: 5471,
     name: "Felipe Rocha",
-    email: "frocha@mail.com"
+    email: "frocha@mail.com",
+    age: 26
   },
   {
     id: 2910,
     name: "Julia Prado",
-    email: "jprado@mail.com"
+    email: "jprado@mail.com",
+    age: 20
   },
   {
     id: 3145,
     name: "Eduardo Prado",
-    email: "eprado@mail.com"
+    email: "eprado@mail.com",
+    age: 18
+  },
+  {
+    id: 7215,
+    name: "Léo Rodrigues",
+    email: "lrodrigues@mail.com",
+    age: 5
   }
 ];
 
@@ -43,6 +52,7 @@ const typeDefs = gql`
     getUserData: User
     getProduct: Product
     users: [User]
+    ofAgeUsers(age: Int): [User]
   }
 `;
 
@@ -70,6 +80,9 @@ const resolvers = {
     },
     users() {
       return usersMock
+    },
+    ofAgeUsers(_, args) {
+      return usersMock.filter(user => user.age >= 18)
     }
   },
   User: {
