@@ -5,25 +5,40 @@ const usersMock = [
     id: 5471,
     name: "Felipe Rocha",
     email: "frocha@mail.com",
-    age: 26
+    age: 26,
+    perfil_id: 83
   },
   {
     id: 2910,
     name: "Julia Prado",
     email: "jprado@mail.com",
-    age: 20
+    age: 20,
+    perfil_id: 29
   },
   {
     id: 3145,
     name: "Eduardo Prado",
     email: "eprado@mail.com",
-    age: 18
+    age: 18,
+    perfil_id: 29
   },
   {
     id: 7215,
     name: "Léo Rodrigues",
     email: "lrodrigues@mail.com",
-    age: 5
+    age: 5,
+    perfil_id: 29
+  }
+];
+
+const perfisMock = [
+  {
+    id: 83,
+    permission: "admin"
+  },
+  {
+    id: 29,
+    permission: "regular"
   }
 ];
 
@@ -37,6 +52,12 @@ const typeDefs = gql`
     age: Int
     salary: Float
     vip: Boolean
+    perfil: Perfil
+  }
+
+  type Perfil {
+    id: Int,
+    permission: String
   }
 
   type Product {
@@ -54,6 +75,8 @@ const typeDefs = gql`
     users: [User]
     ofAgeUsers: [User]
     getUserById(id: ID): User
+    perfis: [Perfil]
+    perfil(id: Int): Perfil
   }
 `;
 
@@ -85,8 +108,14 @@ const resolvers = {
     ofAgeUsers() {
       return usersMock.filter(user => user.age >= 18)
     },
-    getUserById(_, args) {
-      return usersMock.filter(user => user.id === Number(args.id))[0]
+    getUserById(_, { id }) {
+      return usersMock.filter(user => user.id === Number(id))[0]
+    },
+    perfis() {
+      return perfisMock
+    },
+    perfil(_, { id }) {
+      return perfisMock.filter(user => user.id === id)[0]
     }
   },
   User: {
@@ -95,6 +124,9 @@ const resolvers = {
     },
     id(user) {
       return user.user_id || user.id
+    },
+    perfil(user) {
+      return perfisMock.filter(item => item.id === user.perfil_id)[0]
     }
   },
   Product: {
